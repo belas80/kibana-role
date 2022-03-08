@@ -1,4 +1,7 @@
 ---
+#- name: Print all available facts
+#  ansible.builtin.debug:
+#    var: ansible_facts
 - import_tasks: precheck.yml
 - name: Check files directory exists
   file:

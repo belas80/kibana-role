@@ -5,6 +5,22 @@
   hosts: all
   gather_facts: false
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: retrieve information about log file
+      become: true
+      stat:
+        path: /var/log/kibana/kibana.log
+      register: kibana_log
+    - name: check file exist
+      assert:
+        that: "kibana_log.stat.exists"
+    - name: pause
+      command: sleep 20
+      changed_when: false
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      uri:
+        url: http://localhost:5601/api/status
+        return_content: yes
+      register: http_answer
+    - name: Web answer
+      assert:
+        that: "'Elasticsearch is available' in http_answer.content"

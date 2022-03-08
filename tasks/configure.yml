@@ -3,6 +3,6 @@
   template:
     src: kibana.yml.j2
     dest: /etc/kibana/kibana.yml
-    mode: '640'
+    mode: 0664
   notify: restart Kibana
   when: ansible_virtualization_type != 'docker'
